@@ -2,19 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService, I18nService } from '@app/core';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  providers: [NgbDropdownConfig]
 })
 export class HeaderComponent implements OnInit {
 
   menuHidden = true;
 
   constructor(private router: Router,
-              private authenticationService: AuthenticationService,
-              private i18nService: I18nService) { }
+    private authenticationService: AuthenticationService,
+    private i18nService: I18nService,
+    config: NgbDropdownConfig) {
+    // customize default values of dropdowns used by this component tree
+    config.placement = 'bottom-right';
+    config.autoClose = false;
+  }
 
   ngOnInit() { }
 
