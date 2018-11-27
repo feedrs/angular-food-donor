@@ -1,12 +1,26 @@
+@import './../../../theme/tabler/variables';
+
 .header-brand-img {
-    height: 2rem;
-    line-height: 2rem;
-    vertical-align: bottom;
+    height: 3rem;
+    line-height: 3rem;
+    vertical-align: middle;
     margin-right: .5rem;
     width: auto;
+}
+
+.header-brand-label {
+    color: $gray-700;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    vertical-align: middle;
 }
 
 .dropdown-toggle::after {
     display: none;
 }
 
+.info-dropdown {
+    line-height: 3rem;
+}

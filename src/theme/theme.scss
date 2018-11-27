@@ -6,3 +6,11 @@
 $tabler-base: "tabler" !default;
 /* Global */
 @import 'tabler/tabler.scss';
+
+body {
+    overflow-y: auto;
+}
+
+.page {
+    border-top: 3px solid $blue;
+}
