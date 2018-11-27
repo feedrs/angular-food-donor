@@ -1,0 +1,20 @@
+{
+  "generator-ngx-rocket": {
+    "version": "5.1.0",
+    "props": {
+      "location": "path",
+      "appName": "vrs-mgt",
+      "target": [
+        "web"
+      ],
+      "pwa": true,
+      "ui": "bootstrap",
+      "auth": true,
+      "lazy": true,
+      "angulartics": false,
+      "projectName": "vrs-mgt",
+      "packageManager": "npm",
+      "mobile": []
+    }
+  }
+}

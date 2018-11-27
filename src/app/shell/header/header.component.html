@@ -1,0 +1,33 @@
+<div class="header py-4">
+	<div class="container">
+		<div class="d-flex">
+			<a class="header-brand" href="./index.html">
+				<img src="./assets/images/logos/bulma.svg" class="header-brand-img" alt="tabler logo">
+			</a>
+			<div class="d-flex order-lg-2 ml-auto">
+				<div ngbDropdown class="dropdown">
+					<a class="nav-link pr-0 leading-none" ngbDropdownToggle>
+						<span class="avatar" style="background-image: url(./assets/images/faces/female/25.jpg)"></span>
+						<span class="ml-2 d-none d-lg-block">
+							<span class="text-default">Jane Doe</span>
+							<small class="text-muted d-block mt-1">Administrator</small>
+						</span>
+					</a>
+					<!-- <a class="btn btn-icon" id="dropdownConfig" ngbDropdownToggle><i class="fe fe-elipsis-v"></i></a> -->
+					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" ngbDropdownMenu>
+						<a class="dropdown-item" href="#">
+							<i class="dropdown-icon fe fe-user"></i> Profile
+						</a>
+						<a class="dropdown-item" href="#">
+							<i class="dropdown-icon fe fe-settings"></i> Settings
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" (click)="logout()">
+							<i class="dropdown-icon fe fe-log-out"></i> Sign out
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
