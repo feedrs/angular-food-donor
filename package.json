@@ -15,6 +15,7 @@
     "docs": "hads ./docs -o",
     "env": "ngx-scripts env npm_package_version",
     "generate": "ng generate",
+    "postinstall": "npm run build",
     "preinstall": "npm install -g @angular/cli @angular/compiler-cli typescript"
   },
   "engines": {
