@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="225px" height="235px" viewBox="0 0 225 235" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M105.529436,7.20877903e-13 C47.4790363,7.20877903e-13 0.413275156,41.1339024 0.413275156,91.8606849 C0.413275156,120.855854 15.8193625,146.675268 39.8318355,163.505458 L39.8318355,209.96728 L85.8792838,182.061316 C92.2519511,183.111152 98.8085716,183.72137 105.529436,183.72137 C163.579836,183.72137 210.645597,142.594029 210.645597,91.8606849 C210.645597,41.1339024 163.579836,7.20877903e-13 105.529436,7.20877903e-13 L105.529436,7.20877903e-13 Z" id="path-1"></path>
+        <filter x="-6.5%" y="-5.0%" width="112.9%" height="116.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feMorphology radius="4.09860087" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="10" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.183650362 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-13" transform="translate(-2180.000000, -55.000000)">
+            <g id="Logos-Copy" transform="translate(2186.000000, 60.000000)">
+                <g id="Logo" transform="translate(0.548101, 0.000000)">
+                    <g id="Fill-192">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use stroke="#00BCD4" stroke-width="8.19720174" fill="#FAFAFA" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <g id="TEXT" transform="translate(28.160791, 45.930342)" fill="#00BCD4" font-family="MuseoSans-900, Museo Sans" font-size="78.3808623" font-weight="bold">
+                        <text id="VRS">
+                            <tspan x="0" y="74">VRS</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
