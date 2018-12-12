@@ -4,20 +4,7 @@
       <div class="row">
         <div class="col col-login mx-auto">
           <div class="text-center mb-6">
-            <img src="./assets/images/logos/logo-vrs.svg" class="h-9" alt="">
-          </div>
-          <div>
-            <h6 class="d-inline-block">v{{version}}</h6>
-            <div class="d-inline-block ml-3" ngbDropdown>
-              <button id="language-dropdown" class="btn btn-sm btn-secondary" ngbDropdownToggle>
-                {{currentLanguage}}
-              </button>
-              <div ngbDropdownMenu aria-labelledby="language-dropdown">
-                <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
-                  {{language}}
-                </button>
-              </div>
-            </div>
+            <img src="./assets/images/logos/icon-logo.svg" class="h-9" alt="">
           </div>
 
           <form (ngSubmit)="login()" [formGroup]="loginForm" class="card" novalidate>
