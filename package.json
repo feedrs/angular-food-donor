@@ -15,7 +15,7 @@
     "docs": "hads ./docs -o",
     "env": "ngx-scripts env npm_package_version",
     "generate": "ng generate",
-    "postinstall": "npm run build", 
+    "postinstall": "npm run build",
     "preinstall": "npm install -g @angular/cli @angular/compiler-cli typescript"
   },
   "engines": {
@@ -38,7 +38,9 @@
     "@ngx-translate/core": "^10.0.1",
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.6",
+    "express": "^4.16.4",
     "lodash": "^4.17.10",
+    "path": "^0.12.7",
     "rxjs": "^6.3.1",
     "simple-line-icons": "^2.4.1",
     "zone.js": "^0.8.26"
