@@ -1,5 +1,5 @@
 {
-  "name": "vrs-mgt",
+  "name": "food-donor",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,12 @@
     "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean -sort --marker extract",
     "docs": "hads ./docs -o",
     "env": "ngx-scripts env npm_package_version",
-    "generate": "ng generate"
+    "generate": "ng generate",
+    "preinstall": "npm install -g @angular/cli @angular/compiler-cli typescript"
+  },
+  "engines": {
+    "node": "8.9.4",
+    "npm": "6.4.1"
   },
   "dependencies": {
     "@angular/animations": "^6.1.6",
