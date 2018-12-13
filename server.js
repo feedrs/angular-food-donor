@@ -42,20 +42,20 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
 
 // Heroku automagically gives us SSL
 // Lets write some middleware to redirect us
-// let env = process.env.NODE_ENV || 'development';
+let env = process.env.NODE_ENV || 'development';
 
-// let forceSSL = (req, res, next) => {
-//     if (req.headers['x-forwarded-proto'] !== 'https') {
-//         return res.redirect(['https://', req.get('Host'), req.url].join(''));
-//     }
-//     return next();
-// };
+let forceSSL = (req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    return next();
+};
 
-// if (env === 'production') {
-//     app.use(forceSSL);
-// }
+if (env === 'production') {
+    app.use(forceSSL);
+}
 
-// CONTACTS API ROUTES BELOW
+// DONOR API ROUTES BELOW
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
@@ -63,9 +63,9 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({ "error": message });
 }
 
-/*  "/api/contacts"
- *    GET: finds all contacts
- *    POST: creates a new contact
+/*  "/api/donor"
+ *    GET: finds all donor
+ *    POST: creates a new donor
  */
 
 app.get("/api/donor", function (req, res) {
