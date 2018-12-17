@@ -3,9 +3,12 @@ const express = require('express');
 const app = express();
 var bodyParser = require("body-parser");
 var mongodb = require("mongodb");
-var ObjectID = mongodb.ObjectID;
+var ObjectID = mongodb.ObjectId;
 
 var DONOR_COLLECTION = "food_donor";
+var FOOD_COLLECTION = "food";
+var STOCK_COLLECTION = "stock";
+var TRANS_COLLECTION = "transactions";
 
 // Serve static files
 app.use(bodyParser.json());
@@ -78,21 +81,185 @@ app.get("/api/donor", function (req, res) {
     });
 });
 
+app.get("/api/food/:type", function (req, res) {
+
+    var type = req.params.type;
+
+    db.collection(FOOD_COLLECTION).find({ type: type }).toArray(function (err, docs) {
+        if (err) {
+            handleError(res, err.message, "Failed to get food.");
+        } else {
+            res.status(200).json(docs);
+        }
+    });
+});
+
 app.post("/api/donor", function (req, res) {
-    var newDonor = req.body;
+
+    var newDonor = {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        address: req.body.address
+    };
+
     newDonor.createDate = new Date();
 
     if (!req.body.first_name) {
         handleError(res, "Invalid user input", "Must provide a name.", 400);
     } else {
-        db.collection(DONOR_COLLECTION).insertOne(newDonor, function (err, doc) {
+
+        db.collection(DONOR_COLLECTION).findOne({ first_name: newDonor.first_name, last_name: newDonor.last_name }, function (err, doc) {
             if (err) {
-                handleError(res, err.message, "Failed to create new donor.");
+                handleError(res, err.message, "Failed to find donor.");
             } else {
-                res.status(201).json(doc.ops[0]);
+                if (doc) {
+                    console.log('NOT NULL', doc);
+
+                    getFood(req.body.food_name).then(function (result) {
+                        var newTrans = {
+                            "donor": doc,
+                            "food": result,
+                            "quantity": parseInt(req.body.quantity)
+                        }
+                        // console.log(newStock);
+                        db.collection(TRANS_COLLECTION).insertOne(newTrans, function (err, doc) {
+                            if (err) {
+                                handleError(res, err.message, "Failed to create new stock.");
+                            } else {
+
+                                checkStock(newTrans.food.name).then(function (result) {
+
+                                    var newStock = {
+                                        "food_desc": newTrans.food.name,
+                                        "quantity": parseInt(req.body.quantity)
+                                    }
+
+                                    if (result) {
+
+                                        let sum = parseInt(result.quantity) + newStock.quantity;
+                                        console.log(sum);
+                                        //update
+                                        db.collection(STOCK_COLLECTION).findOneAndUpdate(
+                                            { food_desc: newTrans.food.name },
+                                            {
+                                                $set: {
+                                                    quantity: sum,
+                                                }
+                                            },
+                                            { upsert: true },
+                                            function (err, doc) {
+                                                if (err) {
+                                                    handleError(res, err.message, "Failed to update stock.");
+                                                } else {
+                                                    console.log(doc.value);
+                                                    res.status(201).json(doc.value);
+                                                }
+                                            }
+                                        )
+                                    }
+                                    else {
+                                        db.collection(STOCK_COLLECTION).insertOne(newStock, function (err, doc) {
+                                            if (err) {
+                                                handleError(res, err.message, "Failed to create new stock.");
+                                            } else {
+                                                res.status(201).json(doc.ops[0]);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    })
+                }
+                else {
+                    console.log('NULL');
+                    db.collection(DONOR_COLLECTION).insertOne(newDonor, function (err, doc) {
+                        if (err) {
+                            handleError(res, err.message, "Failed to create new donor.");
+                        } else {
+                            getFood(req.body.food_name).then(function (result) {
+
+                                var newTrans = {
+                                    "donor": doc.ops[0],
+                                    "food": result,
+                                    "quantity": req.body.quantity
+                                }
+
+                                db.collection(TRANS_COLLECTION).insertOne(newTrans, function (err, doc) {
+                                    if (err) {
+                                        handleError(res, err.message, "Failed to create new donor.");
+                                    } else {
+
+                                        checkStock(newTrans.food.name).then(function (result) {
+
+                                            var newStock = {
+                                                "food_desc": newTrans.food.name,
+                                                "quantity": parseInt(req.body.quantity)
+                                            }
+
+                                            if (result) {
+
+                                                let sum = parseInt(result.quantity) + newStock.quantity;
+                                                console.log(sum);
+
+                                                //update
+                                                db.collection(STOCK_COLLECTION).findOneAndUpdate(
+                                                    { food_desc: newTrans.food.name },
+                                                    {
+                                                        $set: {
+                                                            quantity: sum,
+                                                        }
+                                                    },
+                                                    { upsert: true },
+                                                    function (err, doc) {
+                                                        if (err) {
+                                                            handleError(res, err.message, "Failed to update stock.");
+                                                        } else {
+                                                            res.status(201).json(doc.value);
+                                                        }
+                                                    }
+                                                )
+
+                                                // db.collection(STOCK_COLLECTION).insertOne(newStock, function (err, doc) {
+                                                //     if (err) {
+                                                //         handleError(res, err.message, "Failed to create new stock.");
+                                                //     } else {
+                                                //         res.status(201).json(doc.ops[0]);
+                                                //     }
+                                                // });  
+                                            }
+                                            else {
+                                                db.collection(STOCK_COLLECTION).insertOne(newStock, function (err, doc) {
+                                                    if (err) {
+                                                        handleError(res, err.message, "Failed to create new stock.");
+                                                    } else {
+                                                        res.status(201).json(doc.ops[0]);
+                                                    }
+                                                });
+                                            }
+                                        });
+
+                                        // res.status(201).json(doc.ops[0]);
+                                    }
+                                });
+                            })
+                        }
+                    });
+                }
             }
         });
     }
+});
+
+app.get("/api/stock", function (req, res) {
+    db.collection(STOCK_COLLECTION).find({}).toArray(function (err, docs) {
+        if (err) {
+            handleError(res, err.message, "Failed to get contacts.");
+        } else {
+            res.status(200).json(docs);
+        }
+    });
 });
 
 /*  "/api/contacts/:id"
@@ -101,8 +268,37 @@ app.post("/api/donor", function (req, res) {
  *    DELETE: deletes contact by id
  */
 
-app.get("/api/donor/:id", function (req, res) {
-});
+let getFood = (id) => {
+
+    return new Promise(function (resolve, reject) {
+        // Do async job
+        db.collection(FOOD_COLLECTION).findOne({ _id: ObjectID(id) }, function (err, doc) {
+            // console.log(JSON.stringify(doc))
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(doc);
+            }
+        });
+    })
+}
+
+let checkStock = (food_name) => {
+
+    return new Promise(function (resolve, reject) {
+        // Do async job
+        db.collection(STOCK_COLLECTION).findOne({ food_desc: food_name }, function (err, doc) {
+            // console.log(JSON.stringify(doc))
+            if (err) {
+                reject(err)
+            }
+            else {
+                resolve(doc);
+            }
+        });
+    })
+}
 
 app.put("/api/donor/:id", function (req, res) {
 });

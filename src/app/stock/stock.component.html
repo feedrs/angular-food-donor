@@ -1,3 +1,106 @@
-<p>
-  stock works!
-</p>
+<div class="page-header">
+  <h1 class="page-title">
+    Stocks
+  </h1>
+</div>
+<div class="row">
+  <div class="col-4">
+    <div class="card ">
+      <div class="card-status bg-green"></div>
+      <div class="card-header">
+        Well Stock
+      </div>
+      <div *ngIf="wellstocks$ | async as wellstocks">
+        <ng-container *ngIf="wellstocks.length; else noItems">
+          <div class="table-responsive">
+            <table datatable class="table card-table table-vcenter text-nowrap table-hover">
+              <thead>
+                <tr>
+                  <th>Food</th>
+                  <th class="text-center">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stock of wellstocks">
+                  <td>{{ stock.food_desc }}</td>
+                  <td class="text-center">{{ stock.quantity }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+        <ng-template #noItems>
+          <div class="card-body text-center">
+            No Items!
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card ">
+      <div class="card-status bg-orange"></div>
+      <div class="card-header">
+        Low in Stock
+      </div>
+      <div *ngIf="lowstocks$ | async as lowstocks">
+        <ng-container *ngIf="lowstocks.length; else noItemsLowStock">
+          <div class="table-responsive">
+            <table datatable class="table card-table table-vcenter text-nowrap table-hover">
+              <thead>
+                <tr>
+                  <th>Food</th>
+                  <th class="text-center">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stock of lowstocks">
+                  <td>{{ stock.food_desc }}</td>
+                  <td class="text-center">{{ stock.quantity }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+        <ng-template #noItemsLowStock>
+          <div class="card-body text-center">
+            No Items!
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card ">
+      <div class="card-status bg-red"></div>
+      <div class="card-header">
+        Urgently Needed
+      </div>
+      <div *ngIf="nostocks$ | async as nostocks">
+        <ng-container *ngIf="nostocks.length; else noItemsNoStock">
+          <div class="table-responsive">
+            <table datatable class="table card-table table-vcenter text-nowrap table-hover">
+              <thead>
+                <tr>
+                  <th>Food</th>
+                  <th class="text-center">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stock of nostocks">
+                  <td>{{ stock.food_desc }}</td>
+                  <td class="text-center">{{ stock.quantity }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+        <ng-template #noItemsNoStock>
+          <div class="card-body text-center">
+            No Items!
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

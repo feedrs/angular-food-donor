@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 
-import { map, catchError } from 'rxjs/operators';
-import { of, BehaviorSubject } from 'rxjs';
+import { map, filter, flatMap, catchError, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, of } from 'rxjs';
 import { Donor } from '@app/model/donor';
+import { Stock } from '@app/model/stock';
+
+
+const config = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +17,50 @@ export class DonorService {
 
   donors: Observable<Donor[]>;
   private _donors: BehaviorSubject<Donor[]>;
+
+  stocks: Observable<Stock[]>;
+  private _stocks: BehaviorSubject<Stock[]>;
+
+  nostocks: Observable<Stock[]>;
+  private _nostocks: BehaviorSubject<Stock[]>;
+
+  lowstocks: Observable<Stock[]>;
+  private _lowstocks: BehaviorSubject<Stock[]>;
+
+  wellstocks: Observable<Stock[]>;
+  private _wellstocks: BehaviorSubject<Stock[]>;
+
   private dataStore: {
-    donors: Donor[]
+    donors: Donor[],
+    stocks: Stock[],
+    wellstocks: Stock[],
+    lowstocks: Stock[],
+    nostocks: Stock[],
   };
 
   constructor(public http: HttpClient) {
 
-    this.dataStore = { donors: [] };
+    this.dataStore = { donors: [], stocks: [], wellstocks: [], lowstocks: [], nostocks: []};
     this._donors = <BehaviorSubject<Donor[]>>new BehaviorSubject([]);
     this.donors = this._donors.asObservable();
+
+    this._stocks = <BehaviorSubject<Stock[]>>new BehaviorSubject([]);
+    this.stocks = this._stocks.asObservable();
+
+    this._nostocks = <BehaviorSubject<Stock[]>>new BehaviorSubject([]);
+    this.nostocks = this.stocks.pipe(
+      map((data) => data.filter(data => (data.quantity === 0) ))
+    );
+
+    this._lowstocks = <BehaviorSubject<Stock[]>>new BehaviorSubject([]);
+    this.lowstocks = this.stocks.pipe(
+      map((data) => data.filter(data => (data.quantity < 3 && data.quantity > 0) ))
+    );
+
+    this._wellstocks = <BehaviorSubject<Stock[]>>new BehaviorSubject([]);
+    this.wellstocks = this.stocks.pipe(
+      map((data) => data.filter(data => data.quantity > 10 ))
+    );
   }
 
   loadAll() {
@@ -33,31 +72,25 @@ export class DonorService {
       }, error => console.log('Error, could not load donor'));
   }
 
-  create(donor: Donor) {
-    this.http.post(`/donor`, JSON.stringify(donor)).subscribe((data: Donor) => {
-      this.dataStore.donors.push(data);
-      this._donors.next(Object.assign({}, this.dataStore).donors);
-    }, error => console.log('Could not create donor.'));
+  loadAllStock() {
+    this.http.get<Stock[]>("/stock")
+      .subscribe(data => {
+        console.log(data);
+        this.dataStore.stocks = data;
+        this._stocks.next(Object.assign({}, this.dataStore).stocks);
+      }, error => console.log('Error, could not load stocks'));
   }
 
-  update(data: any) {
-
-
-    // this.http.put(`/todos/${cartItem.id}`, JSON.stringify(cartItem))
-    //   .subscribe((data: CartDetail) => {
-    this.dataStore.donors.forEach((t: any, i: any) => {
-      if (t.id === data.id) { this.dataStore.donors[i] = data; }
-    });
-    // this._userItems.next(Object.assign({}, this.dataStore).userItems);
-    // }, error => console.log('Could not update cart items.'));
+  create(data: any) {
+    const shared = this.http.post(`/donor`, JSON.stringify(data), config).pipe(
+      shareReplay(),
+    );
+  
+    shared.subscribe((data: Stock) => {
+      this.dataStore.stocks.push(data);
+      this._stocks.next(Object.assign({}, this.dataStore).stocks);
+    }, error => console.log('Could not create stock.'));
+  
+    return shared;
   }
-
-  // getCustomer(): Observable<Customer> {
-  //   return this.http
-  //     .get("/customer")
-  //     .pipe(
-  //       map(data => data.json()),
-  //       catchError(() => of('Error, could not load customer'))
-  //     );
-  // }
 }
