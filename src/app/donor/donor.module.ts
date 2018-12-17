@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 
 import { DonorComponent } from './donor.component';
 import { DonorRoutingModule } from './donor-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    DonorRoutingModule
+    DonorRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [DonorComponent]
 })

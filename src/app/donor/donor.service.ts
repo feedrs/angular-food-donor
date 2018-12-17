@@ -17,7 +17,7 @@ export class DonorService {
     donors: Donor[]
   };
 
-  constructor(public http: HttpClient) { 
+  constructor(public http: HttpClient) {
 
     this.dataStore = { donors: [] };
     this._donors = <BehaviorSubject<Donor[]>>new BehaviorSubject([]);
@@ -33,7 +33,14 @@ export class DonorService {
       }, error => console.log('Error, could not load donor'));
   }
 
-  update(data: any) { 
+  create(donor: Donor) {
+    this.http.post(`/donor`, JSON.stringify(donor)).subscribe((data: Donor) => {
+      this.dataStore.donors.push(data);
+      this._donors.next(Object.assign({}, this.dataStore).donors);
+    }, error => console.log('Could not create donor.'));
+  }
+
+  update(data: any) {
 
 
     // this.http.put(`/todos/${cartItem.id}`, JSON.stringify(cartItem))
