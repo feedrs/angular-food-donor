@@ -19,7 +19,6 @@ export class DonorComponent implements OnInit {
     },
   ]
   success: boolean = false;
-
   donorForm: any;
   foods: any;
   stocks: any;

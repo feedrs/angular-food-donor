@@ -8,6 +8,7 @@ var ObjectID = mongodb.ObjectId;
 var DONOR_COLLECTION = "food_donor";
 var FOOD_COLLECTION = "food";
 var STOCK_COLLECTION = "stock";
+var CONTACTUS_COLLECTION = "contact_us";
 var TRANS_COLLECTION = "transactions";
 
 // Serve static files
@@ -262,6 +263,23 @@ app.get("/api/stock", function (req, res) {
     });
 });
 
+app.post("/api/contact-us", function (req, res) {
+
+    var newContact = {
+        name: req.body.name,
+        email: req.body.email,
+        message: req.body.message
+    };
+
+    db.collection(CONTACTUS_COLLECTION).insertOne(newContact, function (err, doc) {
+        if (err) {
+            handleError(res, err.message, "Failed to create new contact.");
+        } else {
+            res.status(201).json(doc.ops[0]);
+        }
+    });
+});
+
 /*  "/api/contacts/:id"
  *    GET: find contact by id
  *    PUT: update contact by id
@@ -300,9 +318,9 @@ let checkStock = (food_name) => {
     })
 }
 
-app.put("/api/donor/:id", function (req, res) {
-});
+// app.put("/api/donor/:id", function (req, res) {
+// });
 
-app.delete("/api/donor/:id", function (req, res) {
-});
+// app.delete("/api/donor/:id", function (req, res) {
+// });
 

@@ -1,86 +1,98 @@
-<div class="row">
-  <div class="col-lg-12">
-    <form [formGroup]="donorForm" (ngSubmit)="onSubmit()">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-3">
-            <h4>Donor Information</h4>
+<div class="my-3 my-md-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <form [formGroup]="donorForm" (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <h4>Donor Information</h4>
+              </div>
+              <div class="col-9">
+                <div *ngIf="success">
+                  <ngb-alert type="success" [dismissible]="true">Data has been successfully inserted</ngb-alert>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">First Name</label>
+                  <div class="input-icon mb-3">
+                    <input type="text" class="form-control col-12" placeholder="First Name" formControlName="first_name"
+                      [ngClass]="{ 'is-invalid': f.first_name.errors && (f.first_name.dirty || f.first_name.touched)}">
+                    <div class="invalid-feedback" *ngIf="f.first_name.errors && (f.first_name.dirty || f.first_name.touched)">First
+                      name is required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Last Name</label>
+                  <div class="input-icon mb-3">
+                    <input type="text" class="form-control col-12" placeholder="Last Name" formControlName="last_name"
+                      [ngClass]="{ 'is-invalid': f.last_name.errors && (f.last_name.dirty || f.last_name.touched)}">
+                    <div class="invalid-feedback" *ngIf="f.last_name.errors && (f.last_name.dirty || f.last_name.touched)">Last
+                      name is required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <div class="input-icon mb-3">
+                    <input type="text" class="form-control col-12" placeholder="Email" formControlName="email"
+                      [ngClass]="{ 'is-invalid': f.email.errors && (f.email.dirty || f.email.touched) }">
+                    <div class="invalid-feedback" *ngIf="f.email.errors && (f.email.dirty || f.email.touched)">Email is
+                      required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Address</label>
+                  <div class="input-icon mb-3">
+                    <textarea rows="5" class="form-control col-12" placeholder="Address" formControlName="address"
+                      [ngClass]="{ 'is-invalid': f.address.errors && (f.address.dirty || f.address.touched) }"></textarea>
+                    <div class="invalid-feedback" *ngIf="f.address.errors && (f.address.dirty || f.address.touched)">Address
+                      is required.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <h4>Donor Food</h4>
+              </div>
+              <div class="col-9">
+                <div class="form-group">
+                  <label class="form-label">Type of Food</label>
+                  <select class="form-control" placeholder="Type of Food" formControlName="food_type" [ngClass]="{ 'is-invalid': f.food_type.errors && (f.food_type.dirty || f.food_type.touched) }"
+                    (change)="getFood($event.target.value)">
+                    <option value="">Please select</option>
+                    <option *ngFor="let type of types" [value]="type.id">{{type.desc}}</option>
+                  </select>
+                  <div class="invalid-feedback" *ngIf="f.food_type.errors && (f.food_type.dirty || f.food_type.touched)">Food
+                    Type is required.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Food Name</label>
+                  <div class="input-icon mb-3">
+                    <select class="form-control" placeholder="Type of Food" formControlName="food_name" [ngClass]="{ 'is-invalid': f.food_name.errors && (f.food_name.dirty || f.food_name.touched) }">
+                      <option value="">Please select</option>
+                      <option *ngFor="let food of foods | async" [value]="food._id">{{food.name}}</option>
+                    </select>
+                    <div class="invalid-feedback" *ngIf="f.food_name.errors  && (f.food_name.dirty || f.food_name.touched)">Food
+                      Name is required.</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Quantity</label>
+                  <div class="input-icon mb-3">
+                    <input type="text" class="form-control col-2" placeholder="Quantity" formControlName="quantity"
+                      [ngClass]="{ 'is-invalid': f.quantity.errors && (f.quantity.dirty || f.first_name.touched) }">
+                    <div class="invalid-feedback" *ngIf="f.quantity.errors && (f.quantity.dirty || f.first_name.touched)">Quantity
+                      is required.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-9">
-            <div *ngIf="success">
-                <ngb-alert type="success" [dismissible]="true">Data has been successfully inserted</ngb-alert>
-            </div>
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <div class="input-icon mb-3">
-                <input type="text" class="form-control col-12" placeholder="First Name" formControlName="first_name"
-                  [ngClass]="{ 'is-invalid': f.first_name.errors && (f.first_name.dirty || f.first_name.touched)}">
-                <div class="invalid-feedback" *ngIf="f.first_name.errors && (f.first_name.dirty || f.first_name.touched)">First name is required.</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Last Name</label>
-              <div class="input-icon mb-3">
-                <input type="text" class="form-control col-12" placeholder="Last Name" formControlName="last_name"
-                  [ngClass]="{ 'is-invalid': f.last_name.errors && (f.last_name.dirty || f.last_name.touched)}">
-                <div class="invalid-feedback" *ngIf="f.last_name.errors && (f.last_name.dirty || f.last_name.touched)">Last name is required.</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <div class="input-icon mb-3">
-                <input type="text" class="form-control col-12" placeholder="Email" formControlName="email" [ngClass]="{ 'is-invalid': f.email.errors && (f.email.dirty || f.email.touched) }">
-                <div class="invalid-feedback" *ngIf="f.email.errors && (f.email.dirty || f.email.touched)">Email is required.</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Address</label>
-              <div class="input-icon mb-3">
-                <textarea rows="5" class="form-control col-12" placeholder="Address" formControlName="address"
-                  [ngClass]="{ 'is-invalid': f.address.errors && (f.address.dirty || f.address.touched) }"></textarea>
-                <div class="invalid-feedback" *ngIf="f.address.errors && (f.address.dirty || f.address.touched)">Address is required.</div>
-              </div>
-            </div>
+          <div class="card-footer text-right">
+            <button type="submit" class="btn btn-primary" [disabled]="donorForm.invalid">Save</button>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-3">
-            <h4>Donor Food</h4>
-          </div>
-          <div class="col-9">
-            <div class="form-group">
-              <label class="form-label">Type of Food</label>
-              <select class="form-control" placeholder="Type of Food" formControlName="food_type" [ngClass]="{ 'is-invalid': f.food_type.errors && (f.food_type.dirty || f.food_type.touched) }"
-                (change)="getFood($event.target.value)">
-                <option value="">Please select</option>
-                <option *ngFor="let type of types" [value]="type.id">{{type.desc}}</option>
-              </select>
-              <div class="invalid-feedback" *ngIf="f.food_type.errors && (f.food_type.dirty || f.food_type.touched)">Food Type is required.</div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Food Name</label>
-              <div class="input-icon mb-3">
-                <select class="form-control" placeholder="Type of Food" formControlName="food_name" [ngClass]="{ 'is-invalid': f.food_name.errors && (f.food_name.dirty || f.food_name.touched) }">
-                  <option value="">Please select</option>
-                  <option *ngFor="let food of foods | async" [value]="food._id">{{food.name}}</option>
-                </select>
-                <div class="invalid-feedback" *ngIf="f.food_name.errors  && (f.food_name.dirty || f.food_name.touched)">Food Name is required.</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Quantity</label>
-              <div class="input-icon mb-3">
-                <input type="text" class="form-control col-2" placeholder="Quantity" formControlName="quantity"
-                  [ngClass]="{ 'is-invalid': f.quantity.errors && (f.quantity.dirty || f.first_name.touched) }">
-                <div class="invalid-feedback" *ngIf="f.quantity.errors && (f.quantity.dirty || f.first_name.touched)">Quantity is required.</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
-      <div class="card-footer text-right">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>

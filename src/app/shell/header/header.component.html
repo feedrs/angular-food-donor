@@ -6,7 +6,7 @@
 				<span class="header-brand-label">FoodBank2U</span>
 			</a>
 			<div class="d-flex order-lg-2 ml-auto">
-				<div class="align-self-center">
+				<!-- <div class="align-self-center">
 					<div ngbDropdown class="dropdown">
 						<a class="nav-link pr-0 leading-none" id="dropdownConfig" ngbDropdownToggle>
 							<span class="avatar" style="background-image: url(./assets/images/faces/female/25.jpg)"></span>
@@ -15,7 +15,6 @@
 								<small class="text-muted d-block mt-1">Administrator</small>
 							</span>
 						</a>
-						<!-- <a class="btn btn-icon" id="dropdownConfig" ngbDropdownToggle><i class="fe fe-elipsis-v"></i></a> -->
 						<div class="dropdown-menu-arrow" aria-labelledby="dropdownConfig" ngbDropdownMenu>
 							<a class="dropdown-item" href="#">
 								<i class="dropdown-icon fe fe-user"></i> Profile
@@ -29,7 +28,7 @@
 							</a>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<a class="header-toggler d-lg-none ml-3 ml-lg-0 align-self-center" (click)="navbarCollapsed = !navbarCollapsed">
 					<span class="header-toggler-icon"></span>
 				</a>
@@ -53,12 +52,12 @@
 						<a [routerLink]="['/donor']" [routerLinkActive]="['active']" class="nav-link"><i class="fe fe-user"></i>
 							Donor</a>
 					</li>
-					<li class="nav-item">
+					<!-- <li class="nav-item">
 						<a [routerLink]="['/about']" [routerLinkActive]="['active']" class="nav-link"><i class="fe fe-info"></i>
 							About</a>
-					</li>
+					</li> -->
 					<li class="nav-item">
-						<a [routerLink]="['/contact']" [routerLinkActive]="['active']" class="nav-link"><i class="fe fe-phone"></i>
+						<a [routerLink]="['/contact-us']" [routerLinkActive]="['active']" class="nav-link"><i class="fe fe-phone"></i>
 							Contact Us</a>
 					</li>
 				</ul>
