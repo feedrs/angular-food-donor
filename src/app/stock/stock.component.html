@@ -8,9 +8,9 @@
     <div class="row">
       <div class="col-4">
         <div class="card ">
-          <div class="card-status bg-green"></div>
-          <div class="card-header">
-            Well Stock
+          <div class="card-status"></div>
+          <div class="card-header bg-green text-white">
+           <h5> Well Stock </h5>
           </div>
           <div *ngIf="wellstocks$ | async as wellstocks">
             <ng-container *ngIf="wellstocks.length; else noItems">
@@ -41,9 +41,9 @@
       </div>
       <div class="col-4">
         <div class="card ">
-          <div class="card-status bg-orange"></div>
-          <div class="card-header">
-            Low in Stock
+          <div class="card-status"></div>
+          <div class="card-header bg-orange text-white">
+            <h5>Low in Stock</h5>
           </div>
           <div *ngIf="lowstocks$ | async as lowstocks">
             <ng-container *ngIf="lowstocks.length; else noItemsLowStock">
@@ -74,9 +74,9 @@
       </div>
       <div class="col-4">
         <div class="card ">
-          <div class="card-status bg-red"></div>
-          <div class="card-header">
-            Urgently Needed
+          <div class="card-status"></div>
+          <div class="card-header bg-red text-white">
+           <h5>Urgently Needed</h5> 
           </div>
           <div *ngIf="nostocks$ | async as nostocks">
             <ng-container *ngIf="nostocks.length; else noItemsNoStock">
