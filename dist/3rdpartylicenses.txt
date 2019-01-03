@@ -538,10 +538,10 @@ maintained libraries used by this software which have their own
 licenses; we recommend you read them, as their terms may differ from the
 terms above.
 
-@ngx-translate/core@10.0.2
+@angular/forms@6.1.10
 MIT
 MIT
 
-@angular/forms@6.1.10
+@ngx-translate/core@10.0.2
 MIT
 MIT
