@@ -49,17 +49,17 @@ export class DonorService {
 
     this._nostocks = <BehaviorSubject<Stock[]>>new BehaviorSubject([]);
     this.nostocks = this.stocks.pipe(
-      map((data) => data.filter(data => (data.quantity === 0) ))
+      map((data) => data.filter(data => (data.quantity <= 10 && data.quantity > 0) ))
     );
 
     this._lowstocks = <BehaviorSubject<Stock[]>>new BehaviorSubject([]);
     this.lowstocks = this.stocks.pipe(
-      map((data) => data.filter(data => (data.quantity < 3 && data.quantity > 0) ))
+      map((data) => data.filter(data => (data.quantity <= 20 && data.quantity >= 11) ))
     );
 
     this._wellstocks = <BehaviorSubject<Stock[]>>new BehaviorSubject([]);
     this.wellstocks = this.stocks.pipe(
-      map((data) => data.filter(data => data.quantity > 10 ))
+      map((data) => data.filter(data => data.quantity >= 21 ))
     );
   }
 
